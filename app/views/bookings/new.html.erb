@@ -1,0 +1,14 @@
+<!-- app/views/bookings/new.html.erb -->
+
+<h1>Confirm Your Booking</h1>
+
+<p>Flight: <%= @flight.departure_airport.code %> to <%= @flight.arrival_airport.code %> at <%= @flight.start_datetime %></p>
+<p>Number of Passengers: <%= @num_tickets %></p>
+
+<%= form_with url: bookings_path, method: :post, local: true do %>
+  <%= hidden_field_tag :flight_id, @flight.id %>
+  <%= hidden_field_tag :num_tickets, @num_tickets %>
+  <div>
+    <%= submit_tag "Confirm Booking" %>
+  </div>
+<% end %>
