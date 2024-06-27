@@ -1,14 +1,24 @@
-<!-- app/views/bookings/new.html.erb -->
+<h1>Book Flight</h1>
 
-<h1>Confirm Your Booking</h1>
+<p>Flight ID: <%= @flight.id %></p>
+<p>Departure Airport: <%= @flight.departure_airport.code %></p>
+<p>Arrival Airport: <%= @flight.arrival_airport.code %></p>
+<p>Flight Date: <%= @flight.start_datetime.strftime("%Y-%m-%d %H:%M") %></p>
 
-<p>Flight: <%= @flight.departure_airport.code %> to <%= @flight.arrival_airport.code %> at <%= @flight.start_datetime %></p>
-<p>Number of Passengers: <%= @num_tickets %></p>
+<%= form_with model: @booking, local: true do |f| %>
+  <%= f.hidden_field :flight_id, value: @flight.id %>
 
-<%= form_with url: bookings_path, method: :post, local: true do %>
-  <%= hidden_field_tag :flight_id, @flight.id %>
-  <%= hidden_field_tag :num_tickets, @num_tickets %>
-  <div>
-    <%= submit_tag "Confirm Booking" %>
-  </div>
+  <%= f.fields_for :passengers do |passenger_form| %>
+    <div>
+      <%= passenger_form.label :name %>
+      <%= passenger_form.text_field :name %>
+    </div>
+
+    <div>
+      <%= passenger_form.label :email %>
+      <%= passenger_form.text_field :email %>
+    </div>
+  <% end %>
+
+  <%= f.submit "Complete Booking" %>
 <% end %>
